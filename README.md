@@ -9,7 +9,7 @@ Links to the course material:
 2. From raw counts to differentially expressed genes
 3. GSEA and overrepresentation analysis
 4. WGCNA
-5. Data and knowledge bases, and identifier mapping
+5. [Data and knowledge bases](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DataAndKnowledgebases.md), and identifier mapping
 6. Pathway models
 7. (Multi) omics data visualisation
 8. Networks analysis and network extension
