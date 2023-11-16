@@ -5,8 +5,8 @@ Timetable and further information:
 https://docs.google.com/document/d/1PCKnD2mtoXnuLVavG-FzF_KroXQiMBtqEmn133-RqTo/edit 
 
 Links to the course material:
-1. From FASTQ to raw counts part 1 and part 2
-2. From raw counts to differentially expressed genes
+1. [From FASTQ to raw counts part 1 and part 2](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/FASTQ-%3Erawcounts.md)
+2. [From raw counts to differentially expressed genes](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2.md)
 3. GSEA and overrepresentation analysis
 4. WGCNA
 5. [Data and knowledge bases](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DataAndKnowledgebases.md), and identifier mapping
