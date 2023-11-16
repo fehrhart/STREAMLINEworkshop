@@ -1,4 +1,4 @@
-#From raw counts to differentially expressed genes using the DESeq2 R package
+# From raw counts to differentially expressed genes using the DESeq2 R package
 In this session we will start with raw counts of RNA sequencing data. For this tutorial we are re-using data from a previously published study by XX et al. The data is publicly available from GEO databases under accession number >>>.
 
 ## Content
