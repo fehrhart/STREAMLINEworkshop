@@ -4,7 +4,7 @@ In this session you will learn about (machine readable) molecular pathways and h
 ## Content
 1. Introduction lecture [slides]()
 2. WikiPathways database walk-through
-3. [PathVisio introduction](https://pathvisio.org/tutorials](https://pathvisio.org/tutorials/getting-started.html)
+3. [PathVisio introduction](https://pathvisio.org/tutorials/getting-started.html)
 4. Drawing challenges [slides]()
 
 ## Further reading
