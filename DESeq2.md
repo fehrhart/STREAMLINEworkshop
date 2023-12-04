@@ -3,8 +3,8 @@ In this session we will start with investigating a previously published dataset 
 
 ## Content
 1. Introductory lecture ([slides](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Dataset.pptx)) to the data and data processing steps done by DESeq2 ([slides](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2.pptx)). The raw count data can be downloaded from here, the metadata for analysis is this file: [SraRunTable](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable.txt), while for inspection there is a separate ]Excel file](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable_for_inspection.xlsx) prepared.
-2. Hands-on analysing the data to get from raw counts to differentially expressed genes using the whole dataset and exploring the basic steps ([R code](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2_GSE106589_V1.R))
-3. Hands-on analysing the data to get from raw counts to differentially expressed genes for the subset of neuronal cells ([R code](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2_GSE106589_FBneurons.R))
+2. Hands-on analysing the data to get from raw counts to differentially expressed genes using the whole dataset and exploring the basic steps ([R code_V1](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2_GSE106589_V1.R))
+3. Hands-on analysing the data to get from raw counts to differentially expressed genes for the subset of neuronal cells ([R code_FBneurons](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2_GSE106589_FBneurons.R))
 4. If there is time left - try to adapt the code in order to analyse the NPC subset!
 
 ## Further reading
