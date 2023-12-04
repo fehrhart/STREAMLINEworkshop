@@ -6,9 +6,14 @@ https://docs.google.com/document/d/1PCKnD2mtoXnuLVavG-FzF_KroXQiMBtqEmn133-RqTo/
 
 ## Links to the course material:
 
-The dataset [GSE106589](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE106589) from a previously published study: Hoffman GE, Hartley BJ, Flaherty E, Ladran I et al. Transcriptional signatures of schizophrenia in hiPSC-derived NPCs and neurons are concordant with post-mortem adult brains. Nat Commun 2017 Dec 20;8(1):2225. PMID: [29263384](https://doi.org/10.1038/s41467-017-02330-5). The raw count data can be downloaded from [here](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/GSE106589_geneCounts.csv), the metadata for analysis is this file: [SraRunTable](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable.txt), while for inspection there is a separate [Excel file](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable_for_inspection.xlsx) prepared. The list of differentially expressed genes from [there]().
+### The dataset - raw and processed files
+The dataset [GSE106589](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE106589) from a previously published study: Hoffman GE, Hartley BJ, Flaherty E, Ladran I et al. Transcriptional signatures of schizophrenia in hiPSC-derived NPCs and neurons are concordant with post-mortem adult brains. Nat Commun 2017 Dec 20;8(1):2225. PMID: [29263384](https://doi.org/10.1038/s41467-017-02330-5). The raw count data can be downloaded from [here](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/GSE106589_geneCounts.csv), the metadata for analysis is this file: [SraRunTable](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable.txt), while for inspection there is a separate [Excel file](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable_for_inspection.xlsx) prepared. The list of differentially expressed genes for the FB neurons you are going to create during the tutorial. If needed, the different result files can be downloaded from this list:
+* The list of all genes with their expression data [DEG_F.csv](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DEG_F.csv)
+* The list of significantly (p-value < 0.05) differentially expressed genes [SigDEG_F.csv](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SigDEG_F.csv)
+* The list of all significantly up-regulated genes (p-value < 0.05 AND logFC > 1) [SigUP_F.csv](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SigUP_F.csv)
+* The list of all significantly down-regulated genes (p-value < 0.05 AND logFC < -1) [SigDOWN_F.csv](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SigDOWN_F.csv)
 
-
+### The course materials - tutorials and lectures - for the different blocks
 1. [From FASTQ to raw counts part 1 and part 2](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/FASTQ-%3Erawcounts.md)
 2. [From raw counts to differentially expressed genes](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2.md)
 3. [GSEA and overrepresentation analysis](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/GSEA.md)
