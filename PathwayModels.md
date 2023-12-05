@@ -3,10 +3,11 @@ In this session you will learn about (machine readable) molecular pathways and h
 
 ## Content
 1. Introduction lecture [slides]()
-2. WikiPathways database walk-through
-3. [PathVisio introduction](https://pathvisio.org/tutorials/getting-started.html)
-4. Drawing challenges [slides]()
+2. [WikiPathways](https://www.wikipathways.org/) database walk-through
+3. PathVisio software introduction
+4. Drawing challenges [slides](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Pathway%20model%20drawing%20challenge.docx)
 
 ## Further reading
 1. The [WikiPathways Academy](https://academy.wikipathways.org/)
-2. PathVisio original paper by [Kutmon et al. 2015](https://doi.org/10.1371/journal.pcbi.1004085)
+2. [PathVisio introduction](https://pathvisio.org/tutorials/getting-started.html)
+3. PathVisio original paper by [Kutmon et al. 2015](https://doi.org/10.1371/journal.pcbi.1004085)
