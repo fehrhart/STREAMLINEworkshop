@@ -3,8 +3,8 @@ In this session you will learn about the most common data and knowledge bases us
 ## Content
 1. Lecture on biological databases and identifiers [slides](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Biological%20databases%20and%20ID%20mapping.pptx)
 2. [Walk-through Ensembl](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Ensembl%20walk-through.pdf) (guided hands-on)
-3. Hands-on different databases 
-4. Hands-on different identifier mapping webtools and the R packages BridgeDbR and biomaRt 
+3. Hands-on different databases [link to tutorial](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Hands-on%20Databases.docx)
+4. Hands-on different identifier mapping webtools and the R packages BridgeDbR and biomaRt [link to tutorial](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Hands%20on%20identifier%20mapping.docx)
 ## Further reading
 [The Manga guide to databases](https://oberstar.eu.org/share/Documents/The-Manga-guide-to-databases.pdf)
 [The BridgeDb database pages](https://www.bridgedb.org/)
