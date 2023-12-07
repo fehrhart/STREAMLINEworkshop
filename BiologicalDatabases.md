@@ -1,4 +1,4 @@
-# Data and Knowledge bases
+# Biological databases and identifier mapping
 In this session you will learn about the most common data and knowledge bases used for bioinformatics research. A "side effect" of having more than one database is that different identifier systems have developed over time. Identifier mapping is an important, and frequently needed technique in bioinformatics to align and exchange information between databases.
 ## Content
 1. Lecture on data and knowledge bases [slides]() (lecture)
