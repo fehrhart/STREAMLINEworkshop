@@ -18,7 +18,7 @@ BiocManager::install("biomaRt")
 library(biomaRt)
 
 #set working directory - the folder with all the files in
-setwd("C:/Users/friederike.ehrhart/Documents/Teaching/Workshop materials/Biological databases and ID mapping")
+setwd("C:/...")
 
 #Select a database and a dataset to define your "ensembl" mart object
 ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
