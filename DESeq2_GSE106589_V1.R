@@ -22,7 +22,7 @@ library(dplyr)
 library(stringr)
 
 #Set the working directory by copy-pasting your path
-setwd("C:/your-file-path")
+setwd("C:/...")
 
 #load raw count data and create some overview plots.
 data = read.csv(file = 'GSE106589_geneCounts.csv', row.names = 1, header = TRUE)
