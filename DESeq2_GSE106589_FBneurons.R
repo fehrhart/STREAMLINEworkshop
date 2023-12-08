@@ -1,4 +1,4 @@
-# This script is to analyse GSE106589 data with DESeq2. 
+# This script is to analyse GSE106589 data with DESeq2 - separating FB neuron data from NPC data and analysing FB neuron data. 
 
 #install required packages - if they are not installed yet
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -21,18 +21,18 @@ library(dplyr)
 library(stringr)
 
 #Set the working directory by copy-pasting your path
-setwd("C:/your-file-path")
+setwd("C:/...")
 
 #load raw count data and create some overview plots.
 data = read.csv(file = 'GSE106589_geneCounts.csv', row.names = 1, header = TRUE)
 
-#Some raw count data visualisation with boxplot and PCA
-boxplot(log(data))
-PCA <- prcomp(t(data))
-autoplot(PCA, label = TRUE, label.size = 3)
-
 #Split datafile by cell type. Columns are indicated with N or F so we can use the tidyr function "contains"
 dataF <- select(data, contains("F"))
+
+#Some raw count data visualisation with boxplot and PCA
+boxplot(log(dataF))
+PCA <- prcomp(t(dataF))
+autoplot(PCA, label = TRUE, label.size = 3)
 
 #Load the metadata file. As the count data and metadata are not in the same order, it is required to re-order them. Count matrix and the rows of the column data (information about samples) must be in the same order and this can be achieved by sorting them by npc_line.
 metadata <- read.table(file = 'SraRunTable.txt', sep = ",", header = TRUE)
