@@ -24,13 +24,49 @@ library(stringr)
 #Set the working directory by copy-pasting your path
 setwd("C:/...")
 
-#load raw count data and create some overview plots.
+#load raw count data
 data = read.csv(file = 'GSE106589_geneCounts.csv', row.names = 1, header = TRUE)
 
-#Some raw count data visualisation with boxplot and PCA
+#_______Excursion on plotting and visualising data for quality control_________
+
+#Some raw count data visualisation with boxplot, PCA and cluster dendrogram
+#Boxplots
 boxplot(log(data))
+#PCA
 PCA <- prcomp(t(data))
 autoplot(PCA, label = TRUE, label.size = 3)
+
+#Cluster dendrogram
+# Prepare data for cluster analysis
+cluster_data <- na.omit(data) # listwise deletion of missing data
+cluster_data <- scale(cluster_data) # standardize variables
+cluster_data <- t(cluster_data) #transpose
+# Determine number of clusters (wait for the plot!)
+wss <- (nrow(cluster_data)-1)*sum(apply(cluster_data,2,var))
+for (i in 2:15) wss[i] <- sum(kmeans(cluster_data,
+                                     centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares")
+
+# Performing K-Means Cluster Analysis - using 5 clusters (see plot)
+fit <- kmeans(cluster_data, 5) 
+# get cluster means (takes some time, about 5min)
+aggregate(cluster_data,by=list(fit$cluster),FUN=mean)
+# append cluster assignment
+cluster_data <- data.frame(cluster_data, fit$cluster)
+
+# Ward Hierarchical Clustering -> creating euclidean distance matrix (will take a few minutes)
+d <- dist(cluster_data,
+          method = "euclidean") 
+fit <- hclust(d, method="ward")
+
+# display cluster dendogram
+plot(fit) 
+groups <- cutree(fit, k=5) # cut tree into 5 clusters
+# draw dendogram with red borders around the 5 clusters
+rect.hclust(fit, k=5, border="red")
+
+#________back to the DESeq protocol______________________
 
 #Load the metadata file. As the count data and metadata are not in the same order, it is required to re-order them. Count matrix and the rows of the column data (information about samples) must be in the same order and this can be achieved by sorting them by npc_line.
 metadata <- read.table(file = 'SraRunTable.txt', sep = ",", header = TRUE)
@@ -62,6 +98,8 @@ dds_n <- counts(dds_n, normalized=TRUE)
 boxplot(log(dds_n))
 PCA <- prcomp(t(dds_n))
 autoplot(PCA, label = TRUE, label.size = 3)
+
+write.csv(dds_n, file = "normcounts.csv")
 
 #Volcano plot
 par(mfrow=c(1,1))
