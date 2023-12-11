@@ -1,5 +1,6 @@
 # From raw counts to differentially expressed genes using the DESeq2 R package
 In this session we will start with investigating a previously published dataset that contains of RNA sequencing data. The data from the study by Hoffmann et al. 2017 is publicly available from GEO databases under accession number GSE106589.
+* All files for this sessions can be downloaded from this [zip file](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Dataset%20GSE106589%20and%20DESeq2%20tutorial.zip)
 
 ## Content
 1. Introductory lectures about the ([dataset](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Dataset.pptx)) and data processing steps done by ([DESeq2](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/DESeq2.pptx)). The raw count data can be downloaded from [here](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/GSE106589_geneCounts.csv), the metadata for analysis is this file: [SraRunTable](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable.txt), while for inspection there is a separate [Excel file](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable_for_inspection.xlsx) prepared. (The reason is that the SraRunTable contains several columns that Excel misinterprets as dates and it becomes partly unreadable.)
