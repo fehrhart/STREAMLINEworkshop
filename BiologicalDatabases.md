@@ -6,9 +6,9 @@ In this session you will learn about the most common data and knowledge bases us
 3. Hands-on different databases [link to tutorial](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Hands-on%20Databases.docx)
 4. Hands-on different identifier mapping webtools and the R package biomaRt [link to tutorial](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Hands%20on%20identifier%20mapping.docx). The R script for an example application of [biomaRt](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/BiomaRt.R) is available here. 
 ## Further reading
-[The Manga guide to databases](https://oberstar.eu.org/share/Documents/The-Manga-guide-to-databases.pdf)
-[The BridgeDb database pages](https://www.bridgedb.org/)
-[RDMkit](https://rdmkit.elixir-europe.org/identifiers) 
-The [FAIR cookbook](https://faircookbook.elixir-europe.org/content/recipes/interoperability/identifier-mapping.html)
-Detailled tutorial on usage of [biomaRt](https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html)
-The bridgeDb paper by [van Iersel et al. 2010](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-5) 
+*[The Manga guide to databases](https://oberstar.eu.org/share/Documents/The-Manga-guide-to-databases.pdf)
+*[The BridgeDb database pages](https://www.bridgedb.org/)
+*[RDMkit](https://rdmkit.elixir-europe.org/identifiers) 
+*The [FAIR cookbook](https://faircookbook.elixir-europe.org/content/recipes/interoperability/identifier-mapping.html)
+*Detailled tutorial on usage of [biomaRt](https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html)
+*The bridgeDb paper by [van Iersel et al. 2010](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-5) 
