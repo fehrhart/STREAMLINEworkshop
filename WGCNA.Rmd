@@ -1,0 +1,430 @@
+---
+title: "WGCNA"
+author:
+- tabbassidaloii
+output:
+ md_document:
+    variant: markdown_github
+always_allow_html: yes
+editor_options:
+  chunk_output_type: console
+---
+
+This script guide you through implementing WGCNA on a published RNA sequencing data (Hoffmann et al. 2017, GSE106589).
+
+```{r setup, include = FALSE}
+#Empty the R environment
+rm(list = ls())
+
+#Set your working environment to the location where your current source file is saved into.
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+
+#Check if libraries are already installed, otherwise install them
+if (!"WGCNA" %in% installed.packages())
+  BiocManager::install("WGCNA")
+if (!"flashClust" %in% installed.packages())
+  install.packages("flashClust")
+if (!"dplyr" %in% installed.packages())
+  install.packages("dplyr")
+
+#Load installed libraries
+suppressPackageStartupMessages({
+  library(WGCNA)
+  library(flashClust)
+  library(dplyr)
+})
+
+#Load metadata and normalized data
+metadata <- read.csv("SraRunTable.txt", sep = ",", header = T)
+normCount <-
+  read.csv(
+    "normcounts.csv",
+    sep = ",",
+    header = T,
+    row.names = 1
+  )
+
+#Map sample names in metadata and expression files
+confusion <-
+  metadata [!gsub("-", ".", metadata$npc_line) %in% gsub("^X", "", colnames(normCount)), c("Run", "cell_type", "npc_line")]
+confusion$sampleID <-
+  ifelse(
+    confusion$cell_type == "6 wk FB neuron",
+    paste0(confusion$npc_line, "F"),
+    paste0(confusion$npc_line, "N")
+  )
+metadata$sampleID <-
+  confusion$sampleID[match(metadata$Run, confusion$Run)]
+metadata$sampleID <-
+  ifelse(is.na(metadata$sampleID),
+         metadata$npc_line,
+         metadata$sampleID)
+metadata$sampleID[metadata$sampleID == "2484-2-AF"] = "2484-2aF"
+metadata$sampleID[metadata$sampleID == "2484-2-AN"] = "2484-2aN"
+metadata$sampleID[metadata$sampleID == "3234-3-4NRN"] = "3234-3-4N-2"
+metadata$sampleID[metadata$sampleID == "3234-3-4FRF"] = "3234-3-4F-2"
+metadata$sampleID[metadata$Sample.Name == "GSM2843575"] = "3182-3-1F"
+metadata$sampleID[metadata$Sample.Name == "GSM2843576"] = "3182-3-1F-2"
+metadata$sampleID[metadata$Sample.Name == "GSM2843577"] = "3182-3-1N"
+metadata$sampleID[metadata$Sample.Name == "GSM2843578"] = "3182-3-1N-2"
+
+#Estimate the variance for each gene(row)in the normalized count table
+countVar <- apply(normCount, 1, var)
+#Get the row numbers for the top 10000 most variable genes
+highVar <- order(countVar, decreasing = TRUE)[1:10000]
+#Subset normalized count table
+highVarCountVar <- normCount[highVar, ]
+
+rm(list = setdiff(ls(), c("metadata", "highVarCountVar")))
+```
+
+## Gene coexpression network analysis
+### Finding the outlier samples using Eucidian distance
+```{r OutlierSample, message = FALSE, warning = FALSE, fig.width = 14}
+#Sample network based on squared Euclidean distance
+#Note that data should be transposed
+A <-
+  WGCNA::adjacency(highVarCountVar, type = "distance", corFnc = WGCNA::cor)
+#This calculates the whole network connectivity
+k <- as.numeric(apply(A, 2, sum)) - 1
+#Standardized connectivity
+Z.k <- scale(k)
+#Designate samples as outlying
+#If their Z.k value is below the threshold
+thresholdZ.k <- -2.5 #often -2.5
+#The color vector indicates outlyingness(red)
+outlierColor <- ifelse(Z.k < thresholdZ.k, "red", "black")
+#Calculate the cluster tree using flahsClust or hclust
+sampleTree <-
+  flashClust::flashClust(as.dist(1 - A), method = "average")
+
+datColors <- data.frame(outlierC = outlierColor)
+#Plot the sample dendrogram and the colors underneath.
+plotDendroAndColors(sampleTree,
+                    colors = datColors,
+                    main = "Sample dendrogram and trait heatmap")
+#Remove outlying samples from expression and phenotypic data
+
+rm(list = setdiff(ls(), c("metadata", "highVarCountVar")))
+```
+
+#### Gene coexpression network analysis
+### WGCNA algorithm 
+1. Selecting power
+
+```{r WGCNA_power, echo = FALSE, message = FALSE, warning = FALSE}
+enableWGCNAThreads()
+#Choose a set of soft thresholding powers
+powers <- c(c(1:10), seq(12, 30, 2))
+#choose power based on SFT criterion
+sft <-
+  pickSoftThreshold(
+    t(highVarCountVar),
+    powerVector = powers,
+    corFnc = bicor,
+    networkType = "signed hybrid"
+  )
+#Plot the results
+par(mar = c(5, 4, 4, 2) + 0.1, mfrow = c(1, 2))
+#SFT index as a function of different powers
+plot(
+  sft$fitIndices [, 1],-sign(sft$fitIndices [, 3]) * sft$fitIndices [, 2] ,
+  xlab = "Soft Threshold(power)",
+  ylab = "Scale Free Topology Model Fit, signed R^2",
+  type = "n",
+  main = "Scale independence"
+)
+text(
+  sft$fitIndices [, 1],-sign(sft$fitIndices [, 3]) * sft$fitIndices [, 2] ,
+  labels = powers,
+  col = "red"
+)
+#R^2 cut-off
+abline(h = 0.9, col = "blue")
+#Mean connectivity as a function of different powers
+plot(
+  sft$fitIndices [, 1],
+  sft$fitIndices [, 5],
+  type = "n",
+  xlab = "Soft Threshold(power)",
+  ylab = "Mean Connectivity",
+  main = "Mean connectivity"
+)
+text(sft$fitIndices [, 1],
+     sft$fitIndices [, 5],
+     labels = powers,
+     col = "red")
+rm(list = setdiff(ls(), c("metadata", "highVarCountVar")))
+```
+
+The powers above 0.9 (4) is selected.
+
+2. Creating adjacency matrix
+
+```{r WGCNA_adjacency, echo = FALSE, message = FALSE, warning = FALSE}
+enableWGCNAThreads()
+
+#Steps 2 to 5 (preferably on a cluster)
+#2. Calculate adjacency
+selectedPower = 4
+Adjacency <-
+  adjacency(
+    t(highVarCountVar),
+    power = selectedPower,
+    type = "signed hybrid",
+    corFnc = "bicor"
+  )
+
+rm(list = setdiff(ls(), c(
+  "metadata", "highVarCountVar", "Adjacency"
+)))
+```
+
+3. Calculating TOM 
+
+```{r WGCNA_TOM, echo = FALSE, message = FALSE, warning = FALSE}
+##Define a dissimilarity based on the topological overlap
+TOM <- WGCNA::TOMsimilarity(Adjacency, TOMType = "signed")
+colnames(TOM) <- rownames(TOM) <- colnames(Adjacency)
+
+rm(list = setdiff(
+  ls(),
+  c(
+    "metadata",
+    "highVarCountVar",
+    "Adjacency",
+    "TOM")
+))
+```
+
+4. Calculating dissTOM
+
+```{r WGCNA_dissTOM, echo = FALSE, message = FALSE, warning = FALSE}
+dissTOM <- 1 - TOM
+#Hierarchical gene clustering(according to the dissimilarity matrix)
+geneTree <-
+  flashClust::flashClust(as.dist(dissTOM), method = "average")
+
+# Plot the resulting clustering tree (dendogram)
+sizeGrWindow(12, 9)
+plot(geneTree, xlab = "", sub = "", 
+     main = "Gene Clustering on TOM-based disssimilarity", 
+     labels = FALSE, hang = 0.04)
+
+rm(list = setdiff(
+  ls(),
+  c(
+    "metadata",
+    "highVarCountVar",
+    "Adjacency",
+    "TOM",
+    "dissTOM",
+    "geneTree"
+  )
+))
+```
+
+5. Detecting modules
+
+```{r WGCNA_decModules, echo = FALSE, message = FALSE, warning = FALSE}
+#Set the minimum module size
+minModuleSize <- 20
+deepSplit <- 2
+
+#Module detection by cutting branches
+dynamicMods <-
+  dynamicTreeCut::cutreeDynamic(
+    dendro = geneTree,
+    distM = dissTOM,
+    method = "hybrid",
+    deepSplit = deepSplit,
+    pamRespectsDendro = FALSE,
+    minClusterSize = minModuleSize
+  )
+
+#Convert labels to colors for plotting
+dynamicColors <- WGCNA::labels2colors(dynamicMods)
+#Calculate eigengenes (clustring modules based on expression similarities)
+MEList <-
+  WGCNA::moduleEigengenes(t(highVarCountVar), colors = dynamicColors)
+MEs <- MEList$eigengenes
+NAMES <- colnames(dissTOM)
+
+rm(list = setdiff(
+  ls(),
+  c(
+    "metadata",
+    "highVarCountVar",
+    "Adjacency",
+    "TOM",
+    "dissTOM",
+    "geneTree",
+    "dynamicMods",
+    "dynamicColors",
+    "MEList",
+    "MEs",
+    "NAMES"
+  )
+))
+```
+
+6. Merging modules
+
+```{r WGCNA_mergeModules, echo = FALSE, message = FALSE, warning = FALSE}
+mainDir = "outputs/WGCNA"
+subDir = "MergeModules"
+if (!file.exists(file.path(mainDir, subDir)))
+  dir.create(file.path(mainDir, subDir), recursive = TRUE)
+
+#Merge similar modules
+CutHeight <- 0.2
+#Call an automatic merging function
+merge <-
+  WGCNA::mergeCloseModules(
+    t(highVarCountVar),
+    dynamicColors,
+    cutHeight = CutHeight,
+    verbose = 3,
+    corFnc = bicor
+  )
+#The merged module colors
+mergedColors <- merge$colors
+#Eigengenes of the new merged modules:
+mergedMEs <- merge$newMEs
+
+sizeGrWindow(12,9)
+plotDendroAndColors(geneTree, cbind(dynamicColors, mergedColors),
+                    c("Dynamic Tree Cut", "Merged dynamic"),
+                      dendroLabels = FALSE, hang = 0.03,
+                      addGuide = TRUE, guideHang = 0.05)
+
+write.csv(mergedMEs,
+          "outputs/WGCNA/MergeModules/ModuleEigengenes_merged.csv",
+          row.names = FALSE)
+
+#Summary output of network analysis results(after merging)
+module_colors <- unique(mergedColors)
+All_genes_modules <- as.data.frame(cbind(NAMES, mergedColors))
+write.csv(
+  All_genes_modules,
+  "outputs/WGCNA/MergeModules/All_genes_modules.csv",
+  row.names = FALSE
+)
+#Names(colors) of the modules
+nSamples <- nrow(t(highVarCountVar))
+modNames <- substring(names(mergedMEs), 3)
+geneModuleMembership <-
+  as.data.frame(bicor(t(highVarCountVar), mergedMEs))
+MMPvalue <-
+  as.data.frame(corPvalueStudent(as.matrix(geneModuleMembership), nSamples))
+names(geneModuleMembership) <-
+  gsub("ME", "MM", names(geneModuleMembership))
+names(MMPvalue) <-  gsub("ME", "p.MM", names(MMPvalue))
+write.csv(
+  merge(
+    geneModuleMembership,
+    MMPvalue,
+    by = 0,
+    all = TRUE,
+    sort = FALSE
+  ),
+  "outputs/WGCNA/MergeModules/GeneModule_Membership_MMPvalue.csv",
+  col.names = TRUE,
+  row.names = FALSE
+)
+
+phenWGCNA <- metadata %>%
+  mutate(cell_type = ifelse(cell_type == "NPC", 1, 0),
+         diagnosis = ifelse(diagnosis == "COS", 1, 0),
+         sex = ifelse(sex == "male", 1, 0), 
+         age_of_onset = as.numeric(age_of_onset)) %>%
+  select(sampleID, cell_type, diagnosis, sex, age_of_onset) %>%
+  tibble::column_to_rownames("sampleID")
+           
+#Module membership values and gene significance
+for (j in 1:length(phenWGCNA)[1]) {
+  #Define interested variable of datTrait
+  traitOfInterest <- as.data.frame(phenWGCNA[, j])
+  names(traitOfInterest) <-  colnames(phenWGCNA)[j]
+  #Relate modules to external clinical traits and identifying important genes
+  nGenes <- ncol(t(highVarCountVar))
+  nSamples <- nrow(t(highVarCountVar))
+  moduleTraitCor <-
+    matrix(nrow = dim(mergedMEs)[2], ncol = dim(phenWGCNA)[2])
+  colnames(moduleTraitCor) <-
+    paste0("Cor_", colnames(phenWGCNA))
+  rownames(moduleTraitCor) <- colnames(mergedMEs)
+  for (trait in colnames(phenWGCNA)) {
+    moduleTraitCor[, grep(trait, colnames(moduleTraitCor))] <-
+      cor(mergedMEs, phenWGCNA[, trait], use = "pairwise.complete.obs")
+  }
+  
+  moduleTraitPvalue <-
+    corPvalueStudent(moduleTraitCor, nSamples)
+  colnames(moduleTraitPvalue) <-
+    paste0("Pvalue_", colnames(moduleTraitPvalue))
+  #Write the tables down with modules and correlation
+  write.csv(
+    merge(
+      moduleTraitCor,
+      moduleTraitPvalue,
+      by = 0,
+      all = TRUE,
+      sort = FALSE
+    ),
+    "outputs/WGCNA/MergeModules/ModuleTrait_Cor_Pvalue.csv",
+    col.names = TRUE,
+    row.names = FALSE
+  )
+  #Correlation matrix of each gene and each traits
+  geneTraitSignificance <-
+    as.data.frame(cor(t(highVarCountVar), traitOfInterest,
+                      use = 'pairwise.complete.obs'))
+  GSPvalue <-
+    as.data.frame(corPvalueStudent(as.matrix(geneTraitSignificance), nSamples))
+  names(geneTraitSignificance) <-
+    paste0("GS.", names(traitOfInterest))
+  names(GSPvalue) <- paste0("p.GS.", names(traitOfInterest))
+  write.csv(
+    merge(
+      geneTraitSignificance,
+      GSPvalue,
+      by = 0,
+      all = TRUE,
+      sort = FALSE
+    ),
+    paste0(
+      "outputs/WGCNA/MergeModules/",
+      colnames(phenWGCNA)[j],
+      "_GeneTrait_Significance_GSPvalue.csv"
+    ),
+    col.names = TRUE,
+    row.names = FALSE
+  )
+}
+
+# PLOT
+sizeGrWindow(10,6)
+textMatrix <- paste(signif(moduleTraitCor, 2), "\n(", signif(moduleTraitPvalue, 1), ")", sep = "")
+dim(textMatrix) <- dim(moduleTraitCor)
+par(mar = c(6, 8, 3, 3))
+
+# Display the correlation values within a heatmap
+labeledHeatmap(Matrix = moduleTraitCor, 
+               xLabels = names(phenWGCNA),
+               yLabels = names(mergedMEs), 
+               ySymbols = names(mergedMEs), 
+               colorLabels = FALSE, 
+               colors = blueWhiteRed(50),
+               textMatrix = textMatrix, 
+               setStdMargins = FALSE,
+               cex.text = 0.5,
+               zlim = c(-1,1),
+               main = paste("Module-trait Relationships"))
+
+```
+
+### Print session info
+```{r, warning = FALSE, message = FALSE}
+sessionInfo()
+```
