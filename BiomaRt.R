@@ -8,13 +8,15 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 BiocManager::install("biomaRt")
 
-#library(BiocManager)
-#install("BiocFileCache", force = TRUE)
-#library(BiocFileCache)
-#install.packages("devtools")
-#devtools::install_version("dbplyr", version = "2.3.4")
-#library(dbplyr)
+#__________if needed!__________
+library(BiocManager)
+install("BiocFileCache", force = TRUE)
+library(BiocFileCache)
+install.packages("devtools")
+devtools::install_version("dbplyr", version = "2.3.4")
+#______________________________
 
+library(dbplyr)
 library(biomaRt)
 
 #set working directory - the folder with all the files in
