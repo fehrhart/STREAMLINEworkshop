@@ -5,7 +5,7 @@ In this session you will learn how to analyse and to visualise gene expression d
 ### Morning session
 1. Biological networks lecture [slides]()
 2. Cytoscape introduction tutorial (for more information see also the extensive [Cytoscape manual](https://manual.cytoscape.org/en/latest/))
-3. Hands-on
+3. Hands-on [instructions]()
 
 ### Afternoon session
 1. Introductory lecture on network extension [slides]()
