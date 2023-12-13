@@ -4,6 +4,9 @@ In this session you will learn how to apply WGCNA to your differential gene expr
 ## Content
 1. Introduction lecture 
 2. Hands-on [slides/code](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/WGCNA.Rmd)
+3. You will need the files:
+   * [SraRunTable.txt](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/SraRunTable.txt)
+   * [normcounts.csv](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/normcounts.zip) - this is a zipped (compressed) version!
 
 ## Further reading
 - [WGCNA_analysis](https://deneflab.github.io/HNA_LNA_productivity/WGCNA_analysis.html)
