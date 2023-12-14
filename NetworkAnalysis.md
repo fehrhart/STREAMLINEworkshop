@@ -3,9 +3,9 @@ In this session you will learn how to analyse and to visualise gene expression d
 
 ## Content
 ### Morning session
-1. Biological networks lecture [slides]()
-2. Cytoscape introduction tutorial (for more information see also the extensive [Cytoscape manual](https://manual.cytoscape.org/en/latest/))
-3. Hands-on [instructions]()
+1. Biological networks lecture [slides](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Network_analysis_and_biological_networks.pdf)
+2. [Cytoscape hands-on introduction tutorial](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Cytoscape_handson.docx) (for more information see also the extensive [Cytoscape manual](https://manual.cytoscape.org/en/latest/))
+
 
 ### Afternoon session
 1. Introductory lecture on network extension [slides]()
