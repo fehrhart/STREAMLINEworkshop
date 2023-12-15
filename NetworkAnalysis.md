@@ -8,7 +8,7 @@ In this session you will learn how to analyse and to visualise gene expression d
 3. Automation tutorials can be found [here](https://github.com/cytoscape/cytoscape-automation/wiki). For data visualization and PPis the follwing are of interest: 
    * [Differentially expressed genes network analysis](https://cytoscape.org/cytoscape-automation/for-scripters/R/notebooks/Differentially-expressed-genes.nb.html)
    * [WikiPathways app](https://cytoscape.org/cytoscape-automation/for-scripters/R/notebooks/rWikiPathways-and-RCy3.nb.html)
-   * [Filtering Networks[(https://cytoscape.org/cytoscape-automation/for-scripters/R/notebooks/Filtering-Networks.nb.html)
+   * [Filtering Networks](https://cytoscape.org/cytoscape-automation/for-scripters/R/notebooks/Filtering-Networks.nb.html)
 
 
 ### Afternoon session
