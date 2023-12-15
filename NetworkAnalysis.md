@@ -8,8 +8,8 @@ In this session you will learn how to analyse and to visualise gene expression d
 
 
 ### Afternoon session
-1. Introductory lecture on network extension [slides]()
-2. This tutorial is based on CyTargetLinker, a Cytoscape app to extend networks with additional information. We will follow a modified version of the [Tutorial 2](https://cytargetlinker.github.io/pages/tutorials/tutorial2), using drug-target information instead of regulatory information. The required linksets can be downloaded here:  [DrugBank release 4.2](https://ndownloader.figshare.com/files/21623682?private_link=32aae0822ffdd1f5660b)
+1. Introductory lecture on network extension [slides](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Network%20extension.pptx)
+2. This [tutorial](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Tutorial%20Network%20extension.docx) is based on CyTargetLinker, a Cytoscape app to extend networks with additional information. We will follow a modified version of the [Tutorial 2](https://cytargetlinker.github.io/pages/tutorials/tutorial2), using drug-target information instead of regulatory information. The required linksets can be downloaded here:  [DrugBank release 4.2](https://ndownloader.figshare.com/files/21623682?private_link=32aae0822ffdd1f5660b)
 
 ## Further reading
 1. [Cytoscape manual](https://manual.cytoscape.org/en/latest/)
