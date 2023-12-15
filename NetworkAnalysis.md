@@ -5,7 +5,7 @@ In this session you will learn how to analyse and to visualise gene expression d
 ### Morning session
 1. Biological networks lecture [slides](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Network_analysis_and_biological_networks.pdf)
 2. [Cytoscape hands-on introduction tutorial](https://github.com/fehrhart/STREAMLINEworkshop.github.io/blob/main/Cytoscape_handson.docx) (for more information see also the extensive [Cytoscape manual](https://manual.cytoscape.org/en/latest/))
-3. Automation tutorials can be found [here](https://github.com/cytoscape/cytoscape-automation/wiki). For data visualization and PPis the follwing are of interest: 
+3. Automation tutorials can be found [here](https://github.com/cytoscape/cytoscape-automation/wiki). For data visualization and PPIs/pathways the follwing are of interest: 
    * [Differentially expressed genes network analysis](https://cytoscape.org/cytoscape-automation/for-scripters/R/notebooks/Differentially-expressed-genes.nb.html)
    * [WikiPathways app](https://cytoscape.org/cytoscape-automation/for-scripters/R/notebooks/rWikiPathways-and-RCy3.nb.html)
    * [Filtering Networks](https://cytoscape.org/cytoscape-automation/for-scripters/R/notebooks/Filtering-Networks.nb.html)
